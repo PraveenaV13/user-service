@@ -21,9 +21,7 @@ class UsersController < ApplicationController
     if @user.save
       token = JsonWebToken.encode(user_id: @user.id)
       render json: {token: token, user: @user}, status: :created
-      # render json: @user, status: :created, location: @user # This created location header in response. Tells where the newly created record can be found
     else
-      # render json: @user.errors, status: :unprocessable_content
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_content
     end
   end
