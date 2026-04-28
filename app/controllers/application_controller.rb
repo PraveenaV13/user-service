@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::API
 	before_action :authenticate_user
+	include CanCan::ControllerAdditions
+
+	attr_reader :current_user
+
+	rescue_from CanCan::AccessDenied do |exception|
+		render json: { error: exception.message }, status: :forbidden
+	end
 
 	private
 	def authenticate_user

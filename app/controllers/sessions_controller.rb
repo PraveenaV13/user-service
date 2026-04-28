@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 	def create
 		user = User.find_by(email: params[:email])
 		if user&.authenticate(params[:password])
-			token = JsonWebToken.encode(user_id: user.id)
+			token = JsonWebToken.encode(user_id: user.id, exp: 10.minutes.from_now)
 			render json: { token: token }, status: :ok
 		else
 			render json: { error: "Invalid credentials" }, status: :unauthorized
